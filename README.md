@@ -1,6 +1,6 @@
 # Bài tập nhóm - Mã dòng SOSEMANUK
 
-Phần tôi làm (Vũ Trung Hiếu):
+Phần em làm:
 - key_setup.py: nhận key từ 128 bit đến 256 bit rồi sinh ra 25 khóa con K0 đến K24
 - iv_setup.py: lấy 25 khóa con vừa sinh cộng với IV 128 bit chạy 24 vòng Serpent để gán vào các thanh ghi LFSR và FSM
 - folder tests:
