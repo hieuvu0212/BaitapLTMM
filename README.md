@@ -1,15 +1,16 @@
-# BaitapLTMM - Bài tập Lý thuyết mật mã
-Repo tổng hợp các bài tập môn Lý thuyết mật mã - Vũ Trung Hiếu.
+# BaitapLTMM
+Tổng hợp bài tập môn Lý thuyết mật mã - Vũ Trung Hiếu
 
-## Cấu trúc tổng hợp:
-1. **[nhandathuc/](./nhandathuc/)**: Bài tập nhân đa thức trong trường hữu hạn GF(2^n).
-   - Thuật toán nhân chuyển đổi về dạng bit và giảm bậc bằng phép XOR khi có tràn.
-   - Nhánh riêng: `nhandathuctrongtruongGF`
+Các branch bài tập:
+- nhandathuctrongtruongGF
+  + làm thuật toán nhân đa thức trong trường hữu hạn GF
+  + chuyển về dạng bit để nhân rồi dùng XOR với m để giảm bậc nếu tràn
 
-2. **[baitapnhom_sosemanuk/](./baitapnhom_sosemanuk/)**: Bài tập nhóm mô phỏng mã dòng SOSEMANUK.
-   - `key_setup.py`: Đệm khóa lên 256 bit và sinh 25 khóa con K0 đến K24.
-   - `iv_setup.py`: Chạy 24 vòng Serpent để gán giá trị khởi tạo cho 10 thanh ghi LFSR và 2 thanh ghi FSM.
-   - Nhánh riêng: `baitapnhom`
+- baitapnhom
+  + làm mã dòng sosemanuk (phần em làm)
+  + key_setup.py: nhận key rồi sinh 25 khóa con từ K0 đến K24
+  + iv_setup.py: chạy 24 vòng serpent để gán vào thanh ghi lfsr và fsm
+  + folder tests: test các hàm con với check thử 2 bộ test (1 bộ tự tính tay, 1 bộ test chuẩn)
 
-3. **des_aes**: Thiết kế thuật toán DES và AES-128.
-   - Nhánh riêng: `des_aes`
+- des_aes
+  + thiết kế thuật toán DES và AES 128
