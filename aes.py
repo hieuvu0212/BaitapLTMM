@@ -124,30 +124,67 @@ def mo_rong_khoa(khoa_16_byte):
     return danh_sach_khoa_vong
 
 
-def ma_hoa_aes_128(ban_ro_hex, khoa_hex):
+def ma_hoa_aes_128(ban_ro_hex, khoa_hex, in_trang_thai=False):
     ban_ro_bytes = list(bytes.fromhex(ban_ro_hex))
     khoa_bytes= list(bytes.fromhex(khoa_hex))
+
+    if in_trang_thai:
+        print(f"\n=== MA HOA AES-128 ===")
+        print(f"Ban ro: {ban_ro_hex}")
+        print(f"Khoa:   {khoa_hex}")
 
     khoa_vong = mo_rong_khoa(khoa_bytes)
     state = bytes_sang_state(ban_ro_bytes)
 
     # Vòng 0
     add_round_key(state, khoa_vong[0])
+    if in_trang_thai:
+        s0 = bytes(state_sang_bytes(state)).hex()
+        k0 = bytes(state_sang_bytes(khoa_vong[0])).hex()
+        print(f"Vong  0: AddRoundKey (K0 = {k0}) -> State = {s0}")
 
     # Vòng 1 đến 9
     for vong in range(1, 10):
         sub_bytes(state)
+        s_sub = bytes(state_sang_bytes(state)).hex() if in_trang_thai else ""
+
         shift_rows(state)
+        s_shift = bytes(state_sang_bytes(state)).hex() if in_trang_thai else ""
+
         mix_columns(state)
+        s_mix = bytes(state_sang_bytes(state)).hex() if in_trang_thai else ""
+
         add_round_key(state, khoa_vong[vong])
+        s_add = bytes(state_sang_bytes(state)).hex() if in_trang_thai else ""
+
+        if in_trang_thai:
+            kv_hex = bytes(state_sang_bytes(khoa_vong[vong])).hex()
+            print(f"Vong {vong:2d}: SubBytes   = {s_sub}")
+            print(f"         ShiftRows  = {s_shift}")
+            print(f"         MixColumns = {s_mix}")
+            print(f"         AddKey(K{vong:02d}) = {s_add}  (K{vong:02d} = {kv_hex})")
 
     # Vòng 10 không có mix_columns
     sub_bytes(state)
+    s_sub = bytes(state_sang_bytes(state)).hex() if in_trang_thai else ""
+
     shift_rows(state)
+    s_shift = bytes(state_sang_bytes(state)).hex() if in_trang_thai else ""
+
     add_round_key(state, khoa_vong[10])
+    s_add = bytes(state_sang_bytes(state)).hex() if in_trang_thai else ""
+
+    if in_trang_thai:
+        kv_hex = bytes(state_sang_bytes(khoa_vong[10])).hex()
+        print(f"Vong 10: SubBytes   = {s_sub}")
+        print(f"         ShiftRows  = {s_shift}")
+        print(f"         AddKey(K10)= {s_add}  (K10 = {kv_hex})")
 
     ban_ma_bytes= state_sang_bytes(state)
-    return bytes(ban_ma_bytes).hex()
+    ban_ma = bytes(ban_ma_bytes).hex()
+    if in_trang_thai:
+        print(f"Ban ma cuoi cung: {ban_ma}")
+    return ban_ma
 
 
 def giai_ma_aes_128(ban_ma_hex, khoa_hex):

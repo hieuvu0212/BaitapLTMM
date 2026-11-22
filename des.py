@@ -66,14 +66,21 @@ def ham_feistel_F(nua_phai_32, khoa_con_48):
     return hoan_vi(dau_ra_sbox, P)
 
 
-def ma_hoa_khoi_des(khoi_ro_hex, khoa_hex):
+def ma_hoa_khoi_des(khoi_ro_hex, khoa_hex, in_trang_thai=False):
     khoi_ro_bits= hex_sang_danh_sach_bit(khoi_ro_hex, 64)
     khoa_bits = hex_sang_danh_sach_bit(khoa_hex, 64)
+
+    if in_trang_thai:
+        print(f"\n=== MA HOA DES ===")
+        print(f"Ban ro: {khoi_ro_hex} | Khoa: {khoa_hex}")
 
     danh_sach_khoa = sinh_16_khoa_con(khoa_bits)
     khoi_ip= hoan_vi(khoi_ro_bits, IP)
     L = khoi_ip[:32]
     R = khoi_ip[32:]
+
+    if in_trang_thai:
+        print(f"Sau IP:  L0 = {danh_sach_bit_sang_hex(L)}, R0 = {danh_sach_bit_sang_hex(R)}")
 
     for r in range(16):
         L_moi = R
@@ -84,9 +91,16 @@ def ma_hoa_khoi_des(khoi_ro_hex, khoa_hex):
         L= L_moi
         R = R_moi
 
+        if in_trang_thai:
+            k_hex = danh_sach_bit_sang_hex(danh_sach_khoa[r])
+            print(f"Vong {r+1:2d}: K = {k_hex} | L{r+1:02d} = {danh_sach_bit_sang_hex(L)}, R{r+1:02d} = {danh_sach_bit_sang_hex(R)}")
+
     ghep_nguoc= R + L
     khoi_ma_bits = hoan_vi(ghep_nguoc, FP)
-    return danh_sach_bit_sang_hex(khoi_ma_bits)
+    ban_ma = danh_sach_bit_sang_hex(khoi_ma_bits)
+    if in_trang_thai:
+        print(f"Sau FP (Ban ma): {ban_ma}")
+    return ban_ma
 
 
 def giai_ma_khoi_des(khoi_ma_hex, khoa_hex):
